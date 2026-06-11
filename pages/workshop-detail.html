@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEON LIGHT HK — 霓虹燈工作坊 | Workshop</title>
+  <link rel="icon" href="../images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    :root {
+      --brand: #00FFD1;
+      --brand-dark: #00D4B0;
+      --bg: #0A0A0A;
+      --bg-card: #141414;
+      --bg-hover: #1A1A1A;
+      --text: #FFFFFF;
+      --text-muted: #AAAAAA;
+      --text-dim: #888888;
+      --border: #2A2A2A;
+      --green: #00C853;
+      --yellow: #FFD600;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans TC', 'Montserrat', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { color: var(--brand-dark); }
+
+    /* Header */
+    .site-header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .site-header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      height: 44px;
+      padding: 0 12px;
+      background: #1DB584;
+      border-radius: 4px;
+      color: #fff;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.3;
+      letter-spacing: 1px;
+      text-transform: lowercase;
+    }
+    .header-actions { display: flex; align-items: center; gap: 16px; }
+    .header-actions a { font-size: 20px; }
+    .lang-switch {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .lang-switch:hover { border-color: var(--brand); }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .breadcrumb a { color: var(--text-dim); }
+    .breadcrumb a:hover { color: var(--brand); }
+
+    /* Layout */
+    .detail-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 40px;
+    }
+    @media (max-width: 900px) {
+      .detail-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 8px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+      height: 420px;
+    }
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .gallery img:hover { transform: scale(1.02); }
+    .gallery .main-img {
+      grid-row: 1 / 3;
+      grid-column: 1 / 2;
+    }
+    .gallery .view-all {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+    }
+    .gallery-wrap { position: relative; }
+
+    /* Title Block */
+    .title-block { margin-bottom: 24px; }
+    .title-block h1 {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .stars {
+      display: inline-flex;
+      gap: 2px;
+      color: var(--yellow);
+      font-size: 16px;
+    }
+    .rating-text { color: var(--text-muted); font-size: 14px; }
+    .provider { color: var(--text-dim); font-size: 14px; }
+
+    /* Quick Facts */
+    .quick-facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .fact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .fact-icon { font-size: 22px; flex-shrink: 0; }
+    .fact-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+    .fact-value { font-size: 14px; font-weight: 500; color: var(--text); }
+
+    /* Sections */
+    .section { margin-bottom: 32px; }
+    .section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 20px;
+      background: var(--brand);
+      border-radius: 2px;
+    }
+
+    /* Highlights */
+    .highlights-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+    .highlights-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+    }
+    .highlights-list li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Description */
+    .description-text {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+    .description-text p { margin-bottom: 12px; }
+
+    /* Includes */
+    .includes-list {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+    .includes-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+    .includes-list li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* Meeting Point */
+    .meeting-point {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .meeting-point p { color: var(--text-muted); margin-bottom: 12px; }
+    .map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .map-btn:hover { border-color: var(--brand); }
+
+    /* Important Info */
+    .info-list {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+    .info-list li {
+      position: relative;
+      padding-left: 18px;
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    .info-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+    }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 80px; }
+    .booking-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .price-from { font-size: 14px; color: var(--text-dim); }
+    .price-value { font-size: 32px; font-weight: 700; }
+    .price-unit { font-size: 14px; color: var(--text-dim); }
+    .per-person { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; }
+
+    .qty-selector {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .qty-label { font-size: 14px; }
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 4px;
+    }
+    .qty-controls button {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--bg-hover);
+      color: var(--text);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qty-controls span { min-width: 24px; text-align: center; font-weight: 500; }
+
+    .date-select {
+      width: 100%;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+    .date-select:focus { outline: none; border-color: var(--brand); }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: var(--brand);
+      color: #000;
+      border: none;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .btn-primary:hover { background: var(--brand-dark); }
+
+    .guarantees {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .guarantees div { display: flex; align-items: center; gap: 6px; }
+
+    /* Footer */
+    .site-footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 40px 20px;
+      margin-top: 40px;
+    }
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .footer-social { display: flex; gap: 12px; margin-bottom: 16px; }
+    .footer-social a {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--bg-hover);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: var(--text);
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a { color: var(--text-dim); font-size: 14px; }
+    .footer-links a:hover { color: var(--brand); }
+    .footer-info { font-size: 13px; color: var(--text-dim); line-height: 1.8; }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 24px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    /* Chat widget */
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--brand);
+      color: #000;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 4px 16px rgba(0,255,209,0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="header-logo">Neon<br>light<br>pro.</a>
+      <div class="header-actions">
+        <button class="lang-switch" onclick="toggleLang()">EN / 中文</button>
+        <a href="shop.html">🛍️</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a> › <a href="workshop.html">工作坊 Workshop</a> › <span>霓虹燈工作坊 Neon Sign Workshop</span>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="detail-layout">
+    <div class="main-col">
+
+      <!-- Gallery -->
+      <div class="gallery-wrap">
+        <div class="gallery">
+          <img src="../images/gyg-hero-1.jpg" alt="Neon Workshop Main" class="main-img">
+          <img src="../images/gyg-hero-2.jpg" alt="Neon Workshop 2">
+          <img src="../images/gyg-thumb-1.jpg" alt="Neon Workshop 3">
+        </div>
+        <button class="view-all" onclick="alert('Gallery modal coming soon')">View all photos</button>
+      </div>
+
+      <!-- Title -->
+      <div class="title-block">
+        <h1 data-i18n="title">霓虹燈工作坊 — 親手製作你的專屬霓虹燈</h1>
+        <div class="rating-row">
+          <span class="stars">★★★★★</span>
+          <span class="rating-text">5 out of 5 stars — 12 Reviews</span>
+        </div>
+        <div class="provider">• Activity Provider: <strong>NEON LIGHT HK</strong></div>
+      </div>
+
+      <!-- Quick Facts -->
+      <div class="quick-facts">
+        <div class="fact-card">
+          <span class="fact-icon">🔄</span>
+          <div>
+            <div class="fact-label">Cancellation</div>
+            <div class="fact-value">Free cancellation up to 24h</div>
+          </div>
+        </div>
+        <div class="fact-card">
+          <span class="fact-icon">💳</span>
+          <div>
+            <div class="fact-label">Payment</div>
+            <div class="fact-value">Reserve now &amp; pay later</div>
+          </div>
+        </div>
+        <div class="fact-card">
+          <span class="fact-icon">⏱️</span>
+          <div>
+            <div class="fact-label">Duration</div>
+            <div class="fact-value">2 hours</div>
+          </div>
+        </div>
+        <div class="fact-card">
+          <span class="fact-icon">🗣️</span>
+          <div>
+            <div class="fact-label">Language</div>
+            <div class="fact-value">Cantonese / English / Mandarin</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlights -->
+      <div class="section">
+        <h2 data-i18n="highlights">Highlights 活動亮點</h2>
+        <ul class="highlights-list">
+          <li data-i18n="hl1">Design your own personalized neon sign from sketch to finish</li>
+          <li data-i18n="hl2">Hands-on experience with real neon flex tubing and LED technology</li>
+          <li data-i18n="hl3">Learn color theory, typography, and lighting layout from professional artists</li>
+          <li data-i18n="hl4">Take home a fully functional neon sign (30–40cm) ready to plug in</li>
+          <li data-i18n="hl5">Small group setting — max 8 participants for individual attention</li>
+        </ul>
+      </div>
+
+      <!-- Description -->
+      <div class="section">
+        <h2 data-i18n="about">About this activity 活動詳情</h2>
+        <div class="description-text">
+          <p data-i18n="desc1">
+            Step into the glowing world of neon at our Central PMQ studio. In this 2-hour immersive workshop, you’ll design and build your own neon-style sign using modern LED flex tubing — safe, cool to the touch, and just as vibrant as traditional glass neon.
+          </p>
+          <p data-i18n="desc2">
+            We start with a brief intro to neon history and design principles. Then you’ll sketch your idea, choose your colours, and learn how to bend, cut, and mount the tubing onto an acrylic backing. Our instructors guide you every step of the way.
+          </p>
+          <p data-i18n="desc3">
+            By the end of the session, you’ll walk out with a finished piece — your name, a favourite quote, a symbol, or anything you can imagine — glowing in colours you picked yourself.
+          </p>
+        </div>
+      </div>
+
+      <!-- Includes -->
+      <div class="section">
+        <h2 data-i18n="includes">What's included 費用包括</h2>
+        <ul class="includes-list">
+          <li data-i18n="inc1">2-hour guided neon sign workshop</li>
+          <li data-i18n="inc2">All materials — LED flex tubing, acrylic backing, power supply</li>
+          <li data-i18n="inc3">Design template and sketching tools</li>
+          <li data-i18n="inc4">Your finished neon sign to take home</li>
+          <li data-i18n="inc5">Complimentary bottled water</li>
+        </ul>
+      </div>
+
+      <!-- Meeting Point -->
+      <div class="section">
+        <h2 data-i18n="meeting">Meeting point 集合地點</h2>
+        <div class="meeting-point">
+          <p><strong>HG19, Ground Floor, Block B, PMQ</strong><br>35 Aberdeen Street, Central, Hong Kong<br>中環鴨巴甸街35號PMQ元創方B座地下HG19</p>
+          <a class="map-btn" href="https://maps.google.com/?q=@22.2839,114.1519" target="_blank">📍 Open in Google Maps</a>
+        </div>
+      </div>
+
+      <!-- Important Info -->
+      <div class="section">
+        <h2 data-i18n="important">Important information 注意事項</h2>
+        <ul class="info-list">
+          <li data-i18n="info1">Workshop is located at Central PMQ, Hong Kong</li>
+          <li data-i18n="info2">Suitable for ages 12 and up; under 16 must be accompanied by an adult</li>
+          <li data-i18n="info3">Please arrive 10 minutes before the scheduled start time</li>
+          <li data-i18n="info4">Workshop runs with a minimum of 2 participants; you will be notified if rescheduling is needed</li>
+          <li data-i18n="info5">Your finished sign operates on standard USB power (adapter included)</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="booking-card">
+        <div class="price-row">
+          <span class="price-from">From</span>
+          <span class="price-value">HK$580</span>
+          <span class="price-unit"></span>
+        </div>
+        <div class="per-person">per person</div>
+
+        <div class="qty-selector">
+          <span class="qty-label">Adult</span>
+          <div class="qty-controls">
+            <button onclick="updateQty(-1)">−</button>
+            <span id="qty">1</span>
+            <button onclick="updateQty(1)">+</button>
+          </div>
+        </div>
+
+        <input type="date" class="date-select" id="workshopDate">
+
+        <button class="btn-primary" onclick="alert('Booking system coming soon. Contact us at www.neonlight.pro@gmail.com or (852) 6224-6494')">
+          Check availability
+        </button>
+
+        <div class="guarantees">
+          <div>🔄 Free cancellation up to 24h</div>
+          <div>💳 Reserve now &amp; pay later</div>
+          <div>✓ Instant confirmation</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/neonlighthk/" target="_blank">f</a>
+          <a href="https://www.instagram.com/neonlighthk/" target="_blank">📷</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="c-u-s-t-o-m-i-s-e.html">Customise</a>
+        <a href="workshop.html">Workshop</a>
+        <a href="rental.html">Rental</a>
+        <a href="../index.html#contact">Contact</a>
+      </div>
+      <div class="footer-info">
+        <div>📞 (852) 6224-6494</div>
+        <div>✉️ www.neonlight.pro@gmail.com</div>
+        <div>📍 HG19, PMQ, 35 Aberdeen St, Central, HK</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2024 NEON LIGHT HK. Neon Signs Design &amp; Production.
+    </div>
+  </footer>
+
+  <!-- Chat Widget -->
+  <div class="chat-widget" onclick="alert('Contact us at www.neonlight.pro@gmail.com or (852) 6224-6494')">
+    😊 HELLO!
+  </div>
+
+  <script>
+    // Language toggle
+    const texts = {
+      en: {
+        title: 'Neon Sign Workshop — Design & Build Your Own Glow',
+        highlights: 'Highlights',
+        hl1: 'Design your own personalized neon sign from sketch to finish',
+        hl2: 'Hands-on experience with real neon flex tubing and LED technology',
+        hl3: 'Learn color theory, typography, and lighting layout from professional artists',
+        hl4: 'Take home a fully functional neon sign (30–40cm) ready to plug in',
+        hl5: 'Small group setting — max 8 participants for individual attention',
+        about: 'About this activity',
+        desc1: 'Step into the glowing world of neon at our Central PMQ studio. In this 2-hour immersive workshop, you\u2019ll design and build your own neon-style sign using modern LED flex tubing — safe, cool to the touch, and just as vibrant as traditional glass neon.',
+        desc2: 'We start with a brief intro to neon history and design principles. Then you\u2019ll sketch your idea, choose your colours, and learn how to bend, cut, and mount the tubing onto an acrylic backing. Our instructors guide you every step of the way.',
+        desc3: 'By the end of the session, you\u2019ll walk out with a finished piece — your name, a favourite quote, a symbol, or anything you can imagine — glowing in colours you picked yourself.',
+        includes: 'What\'s included',
+        inc1: '2-hour guided neon sign workshop',
+        inc2: 'All materials — LED flex tubing, acrylic backing, power supply',
+        inc3: 'Design template and sketching tools',
+        inc4: 'Your finished neon sign to take home',
+        inc5: 'Complimentary bottled water',
+        meeting: 'Meeting point',
+        important: 'Important information',
+        info1: 'Workshop is located at Central PMQ, Hong Kong',
+        info2: 'Suitable for ages 12 and up; under 16 must be accompanied by an adult',
+        info3: 'Please arrive 10 minutes before the scheduled start time',
+        info4: 'Workshop runs with a minimum of 2 participants; you will be notified if rescheduling is needed',
+        info5: 'Your finished sign operates on standard USB power (adapter included)',
+      },
+      zh: {
+        title: '霓虹燈工作坊 — 親手製作你的專屬霓虹燈',
+        highlights: '活動亮點',
+        hl1: '從草圖到成品，設計屬於你的個人化霓虹燈',
+        hl2: '親手體驗真正的霓虹軟管與 LED 技術',
+        hl3: '由專業藝術家教授色彩理論、字體設計與燈光佈局',
+        hl4: '帶走一個即插即用的完整霓虹燈作品（30–40cm）',
+        hl5: '小班教學 — 最多 8 人，確保個人指導',
+        about: '活動詳情',
+        desc1: '走進我們位於中環 PMQ 的發光工作室。在這個 2 小時的沉浸式工作坊中，你將使用現代 LED 柔性軟管設計並製作自己的霓虹風格標誌 — 安全、不燙手，與傳統玻璃霓虹燈一樣鮮豔奪目。',
+        desc2: '我們先簡介霓虹燈歷史與設計原則。然後你會草擬構思、挑選顏色，並學習如何彎曲、切割及將軟管固定於壓克力背板上。導師會全程指導。',
+        desc3: '課程結束時，你將帶著完成的作品離開 — 你的名字、一句喜愛的語錄、一個符號，或任何你能想像的事物 — 以你親自挑選的顏色閃耀發光。',
+        includes: '費用包括',
+        inc1: '2 小時導師指導霓虹燈工作坊',
+        inc2: '所有材料 — LED 柔性軟管、壓克力背板、電源供應器',
+        inc3: '設計模板與繪圖工具',
+        inc4: '可帶走的完成霓虹燈作品',
+        inc5: '免費瓶裝水',
+        meeting: '集合地點',
+        important: '注意事項',
+        info1: '工作坊地點位於香港中環 PMQ',
+        info2: '適合 12 歲及以上；16 歲以下須由成人陪同',
+        info3: '請於預定開始時間前 10 分鐘到達',
+        info4: '工作坊最少 2 人開班；如需改期將另行通知',
+        info5: '完成作品使用標準 USB 供電（附轉接器）',
+      }
+    };
+
+    let currentLang = localStorage.getItem('nl-lang') || 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      localStorage.setItem('nl-lang', currentLang);
+      applyLang();
+    }
+    function applyLang() {
+      const t = texts[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+      });
+    }
+    document.addEventListener('DOMContentLoaded', applyLang);
+
+    // Quantity selector
+    let qty = 1;
+    function updateQty(delta) {
+      qty = Math.max(1, Math.min(8, qty + delta));
+      document.getElementById('qty').textContent = qty;
+    }
+
+    // Default date = tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('workshopDate').value = tomorrow.toISOString().split('T')[0];
+  </script>
+
+</body>
+</html>
